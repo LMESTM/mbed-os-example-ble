@@ -4,10 +4,6 @@ This branch is a temporary branch of the mbed-os-example-ble to make early
 trails with NUCLEO_WB55RG before NUCLEO_WB55RG is officially merged and
 released in mbed-os.
 
-# Modifications:
-
-Selection of mbed-os dev_NUCLEO_WB55RG branch in mbed-os.lib files.
-
 # WB55RG Pre-requisite
 
 You need a NUCLEO_WB55RG board, officially named  [p-nucleo-wb55](https://www.st.com/content/st_com/en/products/evaluation-tools/product-evaluation-tools/stm32-nucleo-expansion-boards/p-nucleo-wb55.html)
@@ -29,10 +25,13 @@ __To build an example:__
 	**Tip:** If need to have git installed
 
 1. Using a command-line tool, select this STM32_WB55RG development branch:
+
+    ```
 	$ cd mbed-os-example-ble
     $ git remote add wb55rg https://github.com/LMESTM/mbed-os-example-ble
     $ git fetch wb55rg
     $ git checkout wb55rg/dev_NUCLEO_WB55RG
+	```
 
 
 1. Then navigate to any of the example directories, like BLE_Beacon:
@@ -66,40 +65,51 @@ __To build an example:__
 
 # Test results
 
-* BLE_BatteryLevel/
+    NOTE: we have seen issue when using master head of mbed-os-example-ble.
     When connecting to the device, the connection will fail or the Generic
     Attribute will show "Service Changed" instead of the expected attributes.
 
-    This can work fine with earlier version of the mbed-os-example.
+    The test report below tehrefore is based on this specific version of
+    mbed-os-example (alpha_NUCLEO_WB55RG) until the issue is understood
+    and fixed.
 
-* BLE_Button/
-Could not Scan the device.
+__TESTS THAT HAVE BEEN TESTED OK__
 
-* BLE_Beacon/
+* BLE_BatteryLevel          
+* BLE_Button                (needs PullUp on button InterruptIn)
+* BLE_Beacon       
+* BLE_HeartRate      
+* BLE_LED      
+* BLE_LEDBlinker    
+* BLE_Thermometer           TESTED OK
+* BLE_GAPButton  Note:  needs PullUp on button InterruptIn but count value not udpated (same as https://github.com/ARMmbed/mbed-os-example-ble/issues/215 ?)
 
-* BLE_GAPButton/
-Not tested yet.
-* BLE_GattServer/
-Not tested yet.
-* BLE_LED/
-Not tested yet.
-* BLE_PeriodicAdvertising/
-Not tested yet.
-* BLE_SM/
-Not tested yet.
-* BLE_Beacon/
-Not tested yet.
-* BLE_GAP/
-Not tested yet.
-* BLE_GattClient/
-Not tested yet.
-* BLE_HeartRate/
-Not tested yet.
-* BLE_LEDBlinker/
-Not tested yet.
-* BLE_Privacy/
-Not tested yet.
-* BLE_Thermometer/
+__TESTS THAT HAVE NOT BEEN TESTED__
+
+* BLE_SM                    Not tested yet.
+* BLE_GAP                   Not tested yet.
+* BLE_GattServer            Not tested yet.
+* BLE_GattClient            Not tested yet.
+
+__TESTS THAT HAVE NOT BEEN TESTED__
+
+* BLE_Privacy               
+
+KO - under investigation. Will crash with LOG:
+
+	```
+        Connected to peer: ef:9e:d7:46:7f:c3
+        Peer random resolvable address: 00:00:00:00:00:00
+    Debug Crash Info:
+        Crash location = BLE::gap() [0x0800A61C] (based on PC value)
+        Caller location = DirectSerial::write(void const*, unsigned int) [0x080097DD] (based on LR value)
+        Stack Pointer at the time of crash = [20003140]
+        Target and Fault Info:
+                Processor Arch: ARM-V7M or above
+                Processor Variant: C24
+                Forced exception, a fault with configurable priority has been escalated to HardFault
+                A precise data access error has occurred. Faulting address: 0C29002D
+	```
 
 
 # BLE Examples
@@ -108,7 +118,14 @@ mbed OS and built with [mbed-cli](https://github.com/ARMmbed/mbed-cli). Each exa
 
 Please browse to subdirectories for specific documentation.
 
-# End of temperary NUCLEO_WB55RG documentation
+
+# Modifications:
+
+* Selection of the mbed-os dev_NUCLEO_WB55RG branch in mbed-os.lib files.
+* Add BLE button support when needed
+* Update this README
+
+# End of temporary NUCLEO_WB55RG documentation
 
 
 Getting Started
