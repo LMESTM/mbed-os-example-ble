@@ -30,6 +30,9 @@
             "target.features_add": ["BLE"],
             "target.extra_labels_add": ["CORDIO", "CORDIO_BLUENRG"],
             "ble_button_pin_name": "USER_BUTTON"
+        },
+        "NUCLEO_WB55RG": {
+            "ble_button_pin_name": "USER_BUTTON"
         }
     }
 }
