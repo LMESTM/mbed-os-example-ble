@@ -19,7 +19,9 @@
 #include "ble/BLE.h"
 
 DigitalOut  led1(LED1, 1);
-InterruptIn button(BLE_BUTTON_PIN_NAME);
+DigitalOut  led2(LED2, 1);
+
+InterruptIn button(BLE_BUTTON_PIN_NAME, PullUp);
 uint8_t cnt;
 
 // Change your device name below
@@ -96,6 +98,7 @@ void updatePayload(void)
 void buttonPressedCallback(void)
 {
     ++cnt;
+    led2 = !led2;
 
     // Calling BLE api in interrupt context may cause race conditions
     // Using mbed-events to schedule calls to BLE api for safety
@@ -199,6 +202,9 @@ int main()
 
     // Blink LED every 500 ms to indicate system aliveness
     eventQueue.call_every(500, blinkCallback);
+
+    // Lock deepsleep to not miss button presses
+    sleep_manager_lock_deep_sleep();
 
     // Register function to be called when button is released
     button.rise(buttonPressedCallback);

@@ -21,7 +21,8 @@
 #include "ButtonService.h"
 
 DigitalOut  led1(LED1, 1);
-InterruptIn button(BLE_BUTTON_PIN_NAME);
+DigitalOut  led2(LED2, 1);
+InterruptIn button(BLE_BUTTON_PIN_NAME, PullUp);
 
 static EventQueue eventQueue(/* event count */ 10 * EVENTS_EVENT_SIZE);
 
@@ -32,11 +33,13 @@ ButtonService *buttonServicePtr;
 
 void buttonPressedCallback(void)
 {
+    led2 = !led2;
     eventQueue.call(Callback<void(bool)>(buttonServicePtr, &ButtonService::updateButtonState), true);
 }
 
 void buttonReleasedCallback(void)
 {
+    led2 = !led2;
     eventQueue.call(Callback<void(bool)>(buttonServicePtr, &ButtonService::updateButtonState), false);
 }
 
